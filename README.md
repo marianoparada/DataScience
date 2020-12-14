@@ -1,2 +1,4 @@
 # DataScience
-El objetivo de este analisis es aprender a manejar algunos conceptos con series de tiempo y llegar a graficar casos positivos, negativos y sospechosos de la base de datos que publica el Gobierno de la Ciudad de Buenos Aires en su portal: https://cdn.buenosaires.gob.ar/datosabiertos/datasets/salud/casos-covid-19/casos_covid19.xlsx La idea es que se pueda actualizar el CSV sin tener que modificar el notebook para poder viualizar los datos actualizados
+El objetivo de este repositorio es compartir parte del trabajo realizado durante la cursada de la carrera de Científico de Datos en Acámica.
+Espero que , como tantas veces me ha pasado a mí, alguien pueda encontrar en alguna línea de este código un salvavidas que le permita acercarlo a su objetivo o, al menos, a darle fuerzas para seguir aprendiendo y no abandonar.
+El camino es largo, y recuerden, que por cada logro, antes habrá cientos de fracasos. Les deseo que nunca pierdan la esperanza de que en cada CTRL + ENTER se puedan cumplir sus sueños.
