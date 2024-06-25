@@ -1,0 +1,10 @@
+seaborn
+streamlit
+pandas
+wheel
+matplotlib
+openpyxl
+requests
+folium
+streamlit_folium
+matplotlib.colors
