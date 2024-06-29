@@ -4,7 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import folium
 from streamlit_folium import st_folium
-
+st.set_page_config(
+    page_title="Análisis de Encuesta de Vinos",
+    page_icon="🍷",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    
+)
 st.title("Análisis de Encuesta de Vinos")
 sheet_name = 'datos_compra_colectiva_analisis' # replace with your own sheet name
 sheet_id = '1eQAemgGkOkFA-982dcBtVYG1bvzPRUNrxCHXIYl2Ils' # replace with your sheet's ID
