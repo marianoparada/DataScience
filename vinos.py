@@ -42,7 +42,6 @@ column_mapping = {
 # Renombrar las columnas del DataFrame de Excel
 df.rename(columns=column_mapping, inplace=True)
 
-st.write("Datos de la encuesta:", df.head())
 
 # Paso 1: Municipio y Barrio
 df['municipio'] = df['municipio1'].fillna(df['municipio2']).fillna(df['municipio3'])
@@ -71,7 +70,20 @@ rango_max = 20000
 promedio_rango = df.loc[(df['precio_numerico'] >= rango_min) & (df['precio_numerico'] <= rango_max), 'precio_numerico'].mean().astype(int)
 df.loc[(df['precio_numerico'] < rango_min) | (df['precio_numerico'] > rango_max), 'precio_numerico'] = promedio_rango
 
-st.write("Datos procesados:", df.describe())
+# Estadísticas generales
+total_respuestas = len(df)
+total_hombres = df[df['genero'] == 'Masculino'].shape[0]
+total_mujeres = df[df['genero'] == 'Femenino'].shape[0]
+total_caba = df[df['zona'] == 'CABA'].shape[0]
+total_resto = total_respuestas - total_caba
+
+# Presentar las estadísticas generales en formato de texto
+st.header("Estadísticas Generales")
+st.write(f"**Cantidad total de respuestas:** {total_respuestas}")
+st.write(f"**Cantidad total de hombres:** 👨 {total_hombres}")
+st.write(f"**Cantidad total de mujeres:** 👩 {total_mujeres}")
+st.write(f"**Cantidad total de residentes en CABA:** 📍 {total_caba}")
+st.write(f"**Cantidad total de residentes en el resto:** 🌍 {total_resto}")
 
 # Gráficos
 st.subheader("Gráficos")
