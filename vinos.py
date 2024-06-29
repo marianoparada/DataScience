@@ -85,6 +85,15 @@ st.write(f"**Cantidad total de mujeres:** 👩 {total_mujeres}")
 st.write(f"**Cantidad total de residentes en CABA:** 📍 {total_caba}")
 st.write(f"**Cantidad total de residentes en el resto:** 🌍 {total_resto}")
 
+# Presentar las estadísticas descriptivas en formato de texto
+st.header("Estadísticas Descriptivas Generales")
+st.write(f"**Promedio de precios de vino:** {descriptive_stats['precio_numerico']['mean']:.2f}")
+st.write(f"**Mediana de precios de vino:** {descriptive_stats['precio_numerico']['50%']:.2f}")
+st.write(f"**Desviación estándar de precios de vino:** {descriptive_stats['precio_numerico']['std']:.2f}")
+st.write(f"**Precio mínimo de vino:** {descriptive_stats['precio_numerico']['min']:.2f}")
+st.write(f"**Precio máximo de vino:** {descriptive_stats['precio_numerico']['max']:.2f}")
+st.write(f"**Promedio de vinos abiertos por semana:** {descriptive_stats['cantidad_numerico']['mean']:.2f}")
+st.write(f"**Gasto mensual promedio en vino:** {descriptive_stats['gasto_mensual']['mean']:.2f}")
 # Gráficos
 st.subheader("Gráficos")
 
