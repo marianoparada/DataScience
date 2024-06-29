@@ -70,7 +70,8 @@ rango_max = 20000
 promedio_rango = df.loc[(df['precio_numerico'] >= rango_min) & (df['precio_numerico'] <= rango_max), 'precio_numerico'].mean().astype(int)
 df.loc[(df['precio_numerico'] < rango_min) | (df['precio_numerico'] > rango_max), 'precio_numerico'] = promedio_rango
 
-# Estadísticas generales
+
+
 total_respuestas = len(df)
 total_hombres = df[df['genero'] == 'Masculino'].shape[0]
 total_mujeres = df[df['genero'] == 'Femenino'].shape[0]
@@ -78,13 +79,14 @@ total_caba = df[df['zona'] == 'CABA'].shape[0]
 total_resto = total_respuestas - total_caba
 
 # Presentar las estadísticas generales en formato de texto
+# Estadísticas generales
 st.header("Estadísticas Generales")
 st.write(f"**Cantidad total de respuestas:** {total_respuestas}")
 st.write(f"**Cantidad total de hombres:** 👨 {total_hombres}")
 st.write(f"**Cantidad total de mujeres:** 👩 {total_mujeres}")
 st.write(f"**Cantidad total de residentes en CABA:** 📍 {total_caba}")
 st.write(f"**Cantidad total de residentes en el resto:** 🌍 {total_resto}")
-
+descriptive_stats = df.describe()
 # Presentar las estadísticas descriptivas en formato de texto
 st.header("Estadísticas Descriptivas Generales")
 st.write(f"**Promedio de precios de vino:** {descriptive_stats['precio_numerico']['mean']:.2f}")
