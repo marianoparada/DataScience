@@ -4,13 +4,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import folium
 from streamlit_folium import st_folium
+
 st.set_page_config(
     page_title="Análisis de Encuesta de Vinos",
     page_icon="🍷",
     layout="wide",
-    initial_sidebar_state="expanded",
-    
+    initial_sidebar_state="auto",
+    menu_items={
+        'Get Help': 'https://www.example.com/help',
+        'Report a bug': 'https://www.example.com/bug',
+        'About': "Esta es una aplicación para el análisis de una encuesta sobre consumo de vinos."
+    }
 )
+
 st.title("Análisis de Encuesta de Vinos")
 sheet_name = 'datos_compra_colectiva_analisis' # replace with your own sheet name
 sheet_id = '1eQAemgGkOkFA-982dcBtVYG1bvzPRUNrxCHXIYl2Ils' # replace with your sheet's ID
@@ -42,6 +48,18 @@ column_mapping = {
 # Renombrar las columnas del DataFrame de Excel
 df.rename(columns=column_mapping, inplace=True)
 
+# Estadísticas generales
+total_respuestas = len(df)
+total_hombres = df[df['genero'] == 'Masculino'].shape[0]
+total_mujeres = df[df['genero'] == 'Femenino'].shape[0]
+total_caba = df[df['zona'] == 'CABA'].shape[0]
+total_resto = total_respuestas - total_caba
+
+# Presentar las estadísticas generales en formato de texto
+st.header("Estadísticas Generales")
+st.write(f"**Respuestas :** {total_respuestas}")
+st.write(f"**Sexo Masculino:** 👨 {total_hombres} | **Sexo Femenino:** 👩 {total_mujeres}")
+st.write(f"**CABA:** 📍 {total_caba} | **Resto:** 🌍 {total_resto}")
 
 # Paso 1: Municipio y Barrio
 df['municipio'] = df['municipio1'].fillna(df['municipio2']).fillna(df['municipio3'])
@@ -70,25 +88,10 @@ rango_max = 20000
 promedio_rango = df.loc[(df['precio_numerico'] >= rango_min) & (df['precio_numerico'] <= rango_max), 'precio_numerico'].mean().astype(int)
 df.loc[(df['precio_numerico'] < rango_min) | (df['precio_numerico'] > rango_max), 'precio_numerico'] = promedio_rango
 
-
-
-total_respuestas = len(df)
-total_hombres = df[df['genero'] == 'Masculino'].shape[0]
-total_mujeres = df[df['genero'] == 'Femenino'].shape[0]
-total_caba = df[df['zona'] == 'CABA'].shape[0]
-total_resto = total_respuestas - total_caba
-
-# Presentar las estadísticas generales en formato de texto
-# Estadísticas generales
-st.header("Estadísticas Generales")
-st.write(f"**Cantidad total de respuestas:** {total_respuestas}")
-st.write(f"**Cantidad total de hombres:** 👨 {total_hombres}")
-st.write(f"**Cantidad total de mujeres:** 👩 {total_mujeres}")
-st.write(f"**Cantidad total de residentes en CABA:** 📍 {total_caba}")
-st.write(f"**Cantidad total de residentes en el resto:** 🌍 {total_resto}")
 descriptive_stats = df.describe()
+
 # Presentar las estadísticas descriptivas en formato de texto
-st.header("Estadísticas Descriptivas Generales")
+st.header("Estadísticas Descriptivas")
 st.write(f"**Promedio de precios de vino:** {descriptive_stats['precio_numerico']['mean']:.2f}")
 st.write(f"**Mediana de precios de vino:** {descriptive_stats['precio_numerico']['50%']:.2f}")
 st.write(f"**Desviación estándar de precios de vino:** {descriptive_stats['precio_numerico']['std']:.2f}")
@@ -96,6 +99,7 @@ st.write(f"**Precio mínimo de vino:** {descriptive_stats['precio_numerico']['mi
 st.write(f"**Precio máximo de vino:** {descriptive_stats['precio_numerico']['max']:.2f}")
 st.write(f"**Promedio de vinos abiertos por semana:** {descriptive_stats['cantidad_numerico']['mean']:.2f}")
 st.write(f"**Gasto mensual promedio en vino:** {descriptive_stats['gasto_mensual']['mean']:.2f}")
+
 # Gráficos
 st.subheader("Gráficos")
 
