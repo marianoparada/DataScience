@@ -11,6 +11,31 @@ sheet_id = '1eQAemgGkOkFA-982dcBtVYG1bvzPRUNrxCHXIYl2Ils' # replace with your sh
 url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
 df = pd.read_csv(url)
 
+# Diccionario de mapeo de columnas
+column_mapping = {
+    'Rango etario': 'rango_etario',
+    'Género': 'genero',
+    '¿Dónde residís?': 'zona',
+    '¿En qué barrio?': 'barrio_caba',
+    '¿En qué municipio?': 'municipio1',
+    '¿En qué municipio?.1': 'municipio2',
+    '¿En qué municipio?.2': 'municipio3',
+    'Marca Temporal': 'fecha',
+    '¿Cuáles estilos de vino consumís con regularidad? ': 'gustos',
+    '¿Cuál es tu estilo preferido? ': 'preferido',
+    '¿Cuántos vinos abrís en la semana? ': 'vinos_semana',
+    '¿Dónde solés comprar?': 'proveedor',
+    '¡ÚLTIMA! Si tuvieses que comprar HOY una botella para vos o para compartir con amigos ¿Cuánto gastarías?': 'precio',
+    '¿En qué provincia residís?': 'prov_residencia',
+    '¿En qué ciudad?': 'ciudad_residencia',
+    'Unnamed: 14': 'Unnamed: 15',
+    '¡ÚLTIMA! Si tuvieses que comprar HOY una botella para vos o para compartir con amigos ¿Cuánto gastarías?.1': 'Unnamed: 17',
+    'Unnamed: 16': 'Unnamed: 16'
+}
+
+# Renombrar las columnas del DataFrame de Excel
+df.rename(columns=column_mapping, inplace=True)
+
 st.write("Datos de la encuesta:", df.head())
 
 # Paso 1: Municipio y Barrio
