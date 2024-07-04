@@ -6,18 +6,21 @@ import folium
 from streamlit_folium import st_folium
 
 st.set_page_config(
-    page_title="Análisis de Encuesta de Vinos",
+    page_title="Análisis de datos: Encuesta de Vinos",
     page_icon="🍷",
     layout="wide",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="collapsed",
     menu_items={
         'Get Help': 'https://www.example.com/help',
         'Report a bug': 'https://www.example.com/bug',
         'About': "Esta es una aplicación para el análisis de una encuesta sobre consumo de vinos."
     }
 )
+st.image("https://camo.githubusercontent.com/feb40e56973557372e09e52a5d01025e381d9282f962f12d57c1437512c584b9/68747470733a2f2f6f6e6564726976652e6c6976652e636f6d2f656d6265643f72657369643d37313945413643303033333546343946253231353034353526617574686b65793d253231414955677155583444424d77484c492677696474683d31303234266865696768743d323732", use_column_width=True)
 
 st.title("Análisis de Encuesta de Vinos")
+st.caption("Proyecto: Compra Colectiva. + Info en https://compracolectiva.beehiiv.com/")
+st.caption("Realizado por Lic. Mariano Parada - Data Scientists - mariano.parada@gmail.com - Febrero 2024")
 sheet_name = 'datos_compra_colectiva_analisis' # replace with your own sheet name
 sheet_id = '1eQAemgGkOkFA-982dcBtVYG1bvzPRUNrxCHXIYl2Ils' # replace with your sheet's ID
 url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
@@ -55,11 +58,17 @@ total_mujeres = df[df['genero'] == 'Femenino'].shape[0]
 total_caba = df[df['zona'] == 'CABA'].shape[0]
 total_resto = total_respuestas - total_caba
 
+# Calcular porcentajes
+porcentaje_hombres = (total_hombres / total_respuestas) * 100
+porcentaje_mujeres = (total_mujeres / total_respuestas) * 100
+porcentaje_caba = (total_caba / total_respuestas) * 100
+porcentaje_resto = (total_resto / total_respuestas) * 100
+
 # Presentar las estadísticas generales en formato de texto
-st.header("Estadísticas Generales")
+st.header("🔍 Estadísticas Generales")
 st.write(f"**Respuestas :** {total_respuestas}")
-st.write(f"**Sexo Masculino:** 👨 {total_hombres} | **Sexo Femenino:** 👩 {total_mujeres}")
-st.write(f"**CABA:** 📍 {total_caba} | **Resto:** 🌍 {total_resto}")
+st.write(f"**Sexo Masculino:** 👨♂️  {total_hombres} ({porcentaje_hombres:.2f}%) | **Sexo Femenino:** 👩 {total_mujeres} ({porcentaje_mujeres:.2f}%)")
+st.write(f"**CABA:** 📍 {total_caba} ({porcentaje_caba:.2f}%) | **Resto:** 🌍 {total_resto} ({porcentaje_resto:.2f}%)")
 
 # Paso 1: Municipio y Barrio
 df['municipio'] = df['municipio1'].fillna(df['municipio2']).fillna(df['municipio3'])
@@ -90,18 +99,19 @@ df.loc[(df['precio_numerico'] < rango_min) | (df['precio_numerico'] > rango_max)
 
 descriptive_stats = df.describe()
 
-# Presentar las estadísticas descriptivas en formato de texto
-st.header("Estadísticas Descriptivas")
-st.write(f"**Promedio de precios de vino:** {descriptive_stats['precio_numerico']['mean']:.2f}")
-st.write(f"**Mediana de precios de vino:** {descriptive_stats['precio_numerico']['50%']:.2f}")
-st.write(f"**Desviación estándar de precios de vino:** {descriptive_stats['precio_numerico']['std']:.2f}")
-st.write(f"**Precio mínimo de vino:** {descriptive_stats['precio_numerico']['min']:.2f}")
-st.write(f"**Precio máximo de vino:** {descriptive_stats['precio_numerico']['max']:.2f}")
-st.write(f"**Promedio de vinos abiertos por semana:** {descriptive_stats['cantidad_numerico']['mean']:.2f}")
-st.write(f"**Gasto mensual promedio en vino:** {descriptive_stats['gasto_mensual']['mean']:.2f}")
+st.header("📊 Estadísticas Descriptivas")
+st.write(f"**🍷 Promedio de precios de vino:** {descriptive_stats['precio_numerico']['mean']:.2f}")
+st.write(f"**📈 Mediana de precios de vino:** {descriptive_stats['precio_numerico']['50%']:.2f}")
+st.write(f"**📉 Desviación estándar de precios de vino:** {descriptive_stats['precio_numerico']['std']:.2f}")
+st.write(f"**🔽 Precio mínimo de vino:** {descriptive_stats['precio_numerico']['min']:.2f}")
+st.write(f"**🔼 Precio máximo de vino:** {descriptive_stats['precio_numerico']['max']:.2f}")
+st.write(f"**🍷 Promedio de vinos abiertos por semana:** {descriptive_stats['cantidad_numerico']['mean']:.2f}")
+st.write(f"**💰 Gasto mensual promedio en vino:** {descriptive_stats['gasto_mensual']['mean']:.2f}")
+
 
 # Gráficos
-st.subheader("Gráficos")
+st.image("https://camo.githubusercontent.com/5f8e7d6dffb70b6462eedcb323aa41ecb37f4b98ad2fb58b58be335f02887643/68747470733a2f2f6f6e6564726976652e6c6976652e636f6d2f656d6265643f72657369643d37313945413643303033333546343946253231353034353626617574686b65793d253231414a563147414b4e3669565366456f2677696474683d31303234266865696768743d323337", use_column_width=True)
+st.header("Un gráfico vale más que mil palabras...")
 
 # Densidad según precio de referencia del vino
 fig, ax = plt.subplots()
